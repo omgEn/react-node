@@ -17,11 +17,11 @@ React插值，对象不能直接渲染，数组以字符串的形式进行渲染
 class改为className，fonXxx,  
 style={{},{}}  
 
-**jsx的原理
+**jsx的原理**
 * React.creteElement(tag,{attr},content) 虚拟dom  
 * ReactDom.render(tag,document.querySelector());转成真实的dom，挂载  
 
-**jsx语法
+**jsx语法**
 * {有效的JavaScript表达式} 
    一个表达式是代码的任何有效单位，**其解析为一个值  
   `2 + 2`，`user.firstName` 或 `formatName(user)` 都是有效的  
@@ -30,20 +30,15 @@ style={{},{}}
   React DOM在渲染所有输入内容之前，默认会进行转义  
 
 #### 2 元素渲染
-元素是构成React应用的最小块。组件是由元素构成的。
-
-React DOM负责更新DOM与React元素保持一致。
-
-React元素是**不可变对象**。一旦被创建，就无法更改它的子元素或属性。
-
-React只更新它需要更新的部分。
+元素是构成React应用的最小块。组件是由元素构成的。  
+React DOM负责更新DOM与React元素保持一致。    
+React元素是**不可变对象**。一旦被创建，就无法更改它的子元素或属性。  
+React只更新它需要更新的部分。    
 
 #### 3 组件与Props
-
-组件接收任意入参（props）
-
-注：组件名必须以大写字母开头。**会将小写开头的组件视为原生DOM标签**。
-
+组件接收任意入参（props）  
+注：组件名必须以大写字母开头。会将小写开头的组件视为原生DOM标签。  
+**函数类型**
 * 无状态组件（函数组件）
 
   ````js
@@ -58,7 +53,7 @@ React只更新它需要更新的部分。
   }
   ````
 
-* 类组件
+* class组件
 
   ````js
   class 组件名 extends React.Component {
@@ -73,23 +68,21 @@ React只更新它需要更新的部分。
   //render是必不可少的钩子函数
   ````
 
+**组合组件**
 组件也在其输出中引用其他组件。这就可让我们用统一组件来抽象出任意层次的细节。
 
-**Props的只读性**
+**Props的只读性**  
+组件不能修改自身的props
 
-**纯函数**：函数不会尝试更改入参，且多次调用下相同的入参始终返回相同的结果。
-
-所有React组件都必须像纯函数一样保护它们的props不被更改。
-
-因此引入state，state允许组件随用户操作、网络响应或者其他变化而动态更新输出内容。
+**纯函数**：函数不会尝试更改入参，且多次调用下相同的入参始终返回相同的结果。  
+所有React组件都必须像纯函数一样保护它们的props不被更改。  
+因此引入state，state允许组件随用户操作、网络响应或者其他变化而动态更新输出内容。  
 
 **组件传值**
 
-父->子：通过属性传递  props
-
-子->父：子组件调用父组件传递过来的方法。传递的数据放到参数里去。
-
-兄弟之间不能传值，通过共有的的一个父亲，辗转传值
+父->子：通过属性传递  props  
+子->父：子组件调用父组件传递过来的方法。传递的数据放到参数里去。  
+兄弟之间不能传值，通过共有的的一个父亲，辗转传值  
 
 #### 4 state&生命周期
 
@@ -162,12 +155,10 @@ class Clock extends React.Component{
 ````
 
 * state
-
-  * 直接修改state无效，要通过setState()
-
-  * 处于性能考虑，React会把setState()调用合并成一个
-
-  * this.props和this.state会异步更新，所以不要依赖它们的值更新下一个状态
+	* state是私有的，完全受控于当前组件   
+  * 直接修改state无效，要通过setState()  
+  * 处于性能考虑，React会把setState()调用合并成一个  
+  * this.props和this.state会异步更新，所以不要依赖它们的值更新下一个状态  
 
     ````js
     //wrong
@@ -181,20 +172,24 @@ class Clock extends React.Component{
     this.setState({key:新的value},()=>{回调函数})
     连续多个会合并，以最后一个为准，
     连续执行多次，放入队列中一次执行
+		
+		
+		// 需要获取state更新后的最新的值
+		this.setState({
+			name: 'Rose'
+		}, () => {
+			// 在这里获得最新的值
+			console.log(this.state.name)
+		})
     ````
 
-  * setState
-
+  * setState  
     * 是异步的，有回调函数，
     * state是组件内部的数据，改变了会触发render
 
-  
-
-* 数据是向下流动的
-
-  state是局部的，除了拥有并设置了它的组件，其他组件都无法访问。
-
-  组件可以选择把它的state作为props向下传递到它的子组件中。
+* 数据是向下流动的  
+  state是局部的，除了拥有并设置了它的组件，其他组件都无法访问。  
+  组件可以选择把它的state作为props向下传递到它的子组件中。  
 
   ````js
   <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
@@ -203,15 +198,11 @@ class Clock extends React.Component{
 
   自上而下或“单向”的数据流。state总是属于特定的组件，且从该state派生的任何数据或UI只能影响树中“低于”它的组件。
 
-#### 5 事件处理
-
-采用小驼峰式命名camelCase。
-
-`<button onClick={activateLasers}></button>`
-
-React中阻止默认行为，只能通过e.preventDefault()，return false不行。
-
-阻止冒泡:e.stopPropagation()
+#### 5 事件处理  
+采用小驼峰式命名camelCase。    
+`<button onClick={activateLasers}></button>`  
+React中阻止默认行为，只能通过e.preventDefault()，return false不行。  
+阻止冒泡:e.stopPropagation()  
 
 ````js
 //实现用户切换开关状态
@@ -222,7 +213,7 @@ class Toggle extends React.Component{
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick(){
-        //自定义函数内部用了this要绑定，否则this=undefined
+				//在js中，class的方法默认不会绑定this，所以此处的this要绑定，否则this=undefined
         //bind或用箭头函数
         this.setState(state=>({
             isToggle:!state:isToggle
@@ -240,37 +231,36 @@ ReactDOM.render(
 	<Toggle/>,
     document.getElementById('root');
 )
+
+// 两种传参方式
+<button onClick={(e) => this.deleteRow(id,e)}>Delete</button>
+<button onClick={this.deleteRow.bind(this,id)}>Delete</button>
 ````
 
-* react把事件直接绑定在标签上（原生是不建议这么做的）。组件卸载的时候会把 组件内的事件和事件处理函数也卸载掉，所以不会造成内存泄漏。且所有的事件监听都用了事件委托挂在了顶层对象上，性能不错。
-  * 在标签上挂事件，若没有清理掉会引起内存泄漏的
-  * react用路由组织组件，切换页面时，上一个页面的组件就卸载了。
+杂：  
+react把事件直接绑定在标签上（原生是不建议这么做的）。  
+组件卸载的时候会把组件内的事件和事件处理函数也卸载掉，所以不会造成内存泄漏。  
+且所有的事件监听都用了事件委托挂在了顶层对象上，性能不错。
+* 在标签上挂事件，若没有清理掉会引起内存泄漏的
+* react用路由组织组件，切换页面时，上一个页面的组件就卸载了。
 
 #### 6 列表&key
-
-key给于数组中的每一个元素赋予一个确定的标识。不建议用index（default）作为可以值，会导致性能变差，还可能引起组件状态的问题。因为列表项目的顺序可能会变化。
-
-key放在就近数组的上下文才有意义
-
-key只是在兄弟节点之间必须唯一，不需要全局唯一。
-
-key会传递信息给React，但不会传递给组件。props.key无效
+key给于数组中的每一个元素赋予一个确定的标识。不建议用index（default）作为可以值，会导致性能变差，还可能引起组件状态的问题。因为列表项目的顺序可能会变化。  
+key放在就近数组的上下文才有意义  
+key只是在兄弟节点之间必须唯一，不需要全局唯一。    
+key会传递信息给React，但不会传递给组件。props.key无效  
 
 #### 7 表单
-
-表单具有默认的HTML表单行为，即用户提交表单后会浏览到新页面。
-
-但使用JavaScript函数可方便处理表单提交，同时还可以访问用户填写的表单数据。实现这种效果的标准方式是使用“受控组件”。
+表单具有默认的HTML表单行为，即用户提交表单后会浏览到新页面。  
+但使用JavaScript函数可方便处理表单提交，同时还可以访问用户填写的表单数据。实现这种效果的标准方式是使用“受控组件”。  
 
 **受控组件**
-
-表单元素的值来自于state，普通组件，组件的所有数据来自于props
-
-受控组件，搭配onChange可改变state，value
-
-非受控组件 defaultValue
-
-使React的state成为”唯一数据源“。渲染表单的React组件还控制着用户输入过程中表单发生的操作。被React以这种方式控制取值的表单输入元素就叫做”受控组件“。
+表单元素的值来自于state，普通组件，组件的所有数据来自于props    
+受控组件，搭配onChange可改变state，value  
+非受控组件 defaultValue    
+使React的state成为”唯一数据源“。  
+渲染表单的React组件还控制着用户输入过程中表单发生的操作。 
+被React以这种方式控制取值的表单输入元素就叫做“受控组件”。    
 
 ````js
 class NameForm extends React.Component{
@@ -308,10 +298,6 @@ class NameForm extends React.Component{
 //或传多选
 <select multiple={true} value={['B', 'C']}>
 ````
-
-------------
-
-
 
 **处理多个输入**
 
@@ -359,16 +345,13 @@ class Reservation extends React.Component{
 
 **受控输入空值**
 
-在受控组件上指定value的props会阻止用户更改输入。如果指定了value，但输入仍可编辑，则可能是意外地将value设置为undefined或null。
+在受控组件上指定value的props会阻止用户更改输入。若指定了value，但输入仍可编辑，则可能是意外地将value设置为undefined或null。
 
 **有时间测验**
 
-**非受控组件**
-
-当将之前的代码库转换为React或将React应用程序与非React库集成时，受控组件就不方便了。
-
-非受控组件的表单数据将交由DOM节点来处理。
-
+**非受控组件**  
+当将之前的代码库转换为React或将React应用程序与非React库集成时，受控组件就不方便了。  
+非受控组件的表单数据将交由DOM节点来处理。    
 因为非受控组件将真实数据储存在DOM节点中，所以在使用非受控组件时，有时反而更容易同时继承React和非React代码。如果不介意代码美观性，并且希望快速编写代码，使用非受控组件可减少代码量。
 
 ````js
@@ -402,40 +385,44 @@ render(){
   ````
 
 
-
-
 #### 8 状态提升
 
-通常，多个组件需要反映相同的变化数据，建议**将共享状态提升到最近的共同父组件中去**。
+通常，多个组件需要反映相同的变化数据，建议**将共享状态提升到最近的共同父组件中去**。    
 
-在React应用中，任何可变数据应当只有一个相对应的唯一“数据源”。通常，state都是首先添加到需要渲染数据的组件中去。若其他组件也需要这个state，就将它提升至这些组件的最近共同父组件中。
+在React应用中，任何可变数据应当只有一个相对应的唯一“数据源”。   
+通常，state都是首先添加到需要渲染数据的组件中去。若其他组件也需要这个state，就将它提升至这些组件的最近共同父组件中。
 
 虽然提升state比双向绑定要写更多的代码，好处是排除和隔离bug所需大的工作量将会变少。因为“存在”与组件中的任何state，仅有组件自己能够修改它，因此bug排除就方便很多。此外，也可用自定义逻辑来拒绝或转换用户的输入。
 
-如果某些数据由props或state推到得出，则它就不应该存在于state中。
+**如果某些数据由props或state推到得出，则它就不应该存在于state中。**
 
 #### 9 组合VS继承
 
 React有十分强大的组合模式。推荐使用组合而非继承来实现组件间的代码重用。
 
-**包含关系**
-
-有些组件无法提前知晓它们子组件的具体内容。
-
-建议用props.children，然后任意组件调用。
+**包含关系**  
+有些组件无法提前知晓它们子组件的具体内容。  
+建议用props.children，然后任意组件调用。（相当于插槽吗？）  
 
 ````js
 function FancyBorder(props){
     return (
     <div className={'FancyBorder FancyBorder-' + props.color}>
     	{props.children}
-	</div>
+	  </div>
     )
 }
 function WelcomeDialog() {
   return (
     <FancyBorder color="blue"></FancyBorder>
-    <FancyBorder color="red"></FancyBorder>
+    <FancyBorder color="red">
+			<h1 className="Dialog-title">
+        Welcome
+      </h1>
+      <p className="Dialog-message">
+        Thank you for visiting our spacecraft!
+      </p>
+		</FancyBorder>
   );
 }
 ````
@@ -454,23 +441,22 @@ function SplitPane(props){
 function App(){
     return (
         <SplitPane
-			left={<Contacts/>}
-			right={<Chats/>}
-		/>
+				left={<Contacts/>}
+				right={<Chats/>}
+			/>
     )
 }
 ````
 
 注：组件可以接受任意props，包括基本数据类型，React元素以及函数。
 
---------
+<hr/>
 
 **特例关系**
 
-有时，会把一些组件看做其他组件的特殊实例。
+有时，会把一些组件看做其他组件的特殊实例。  
 
-WelcimeDialog是Dialog的特殊实例。
-
+WelcimeDialog是Dialog的特殊实例。  
 “特殊”组件可以通过props定制并渲染“一般组件”。（类似于继承）
 
 基类（父类）+特殊组件（子类）
@@ -496,48 +482,34 @@ function WelcomeDialog() {
 ````
 
 
-
-----------
-
-**继承**
-
-在Factbook，并没有发现需要继承来构建组件层次的情况。
-
-Props和组合提供更清晰而安全地定制组件外观和行为的灵活方式。
-
-若想在组件间复用非UI的功能，建议将其提取为一个单独的JavaScript模块，如函数、对象或者类。组件可以直接import而非extend继承。
+**继承**  
+在Factbook，并没有发现需要继承来构建组件层次的情况。    
+Props和组合提供更清晰而安全地定制组件外观和行为的灵活方式。    
+若想在组件间复用非UI的功能，建议将其提取为一个单独的JavaScript模块，如函数、对象或者类。组件可以直接import而非extend继承。  
 
 #### 10 生命周期
 
-* 挂载阶段
-
-  * 1 constructor(props,context)  
-
-    初始化：初始化state，将事件处理函数绑定到实例上。
-
-  * 2 static getDerivedStateFromProps(props,state)  
-
-    derived state派生状态
-
+* 挂载阶段   
+  * 1 constructor(props,context)    
+    初始化：初始化state，将事件处理函数绑定到实例上。    
+		
+  * 2 static getDerivedStateFromProps(props,state)     
+    derived state派生状态  
     组件实例化后，props更新了调用。若父组件的props更改所带来的的重新渲染，也会触发此方法。
 
     必须返回一个对象来更新状态或者返回null表示新的props不需要任何state的更新。
 
     **静态方法**不能用this，调用是lei.静态方法名()
 
-  * 3 render()
+  * 3 render()  
+    必需的，当被调用时，将计算this.props和this.state。并返回以下一种类型  
+    	* react元素。通过jsx创建，可是dom元素，也可是用户自定义的组件     
+		 	* 字符串或数字。他们将以文本节点形式渲染到dom中。
+			* null,什么也不渲染
+			* 布尔值。什么也不渲染
+			* 数组：以字符串形式渲染 
 
-    必需的，当被调用时，将计算this.props和this.state。并返回以下一种类型
-
-       1.React元素。通过jsx创建，可是dom元素，也可是用户自定义的组件
-
-       2.字符串或数字。他们将以文本节点形式渲染到dom中。
-
-    3. null，什么也不渲染。
-      4. 布尔值。也是什么都不渲染
-    5. 数组：以字符串形式渲染 
-
-    注：对象不能直接渲染
+    注：对象不能直接渲染 ?
 
   * componentDidMount()
 
@@ -555,9 +527,9 @@ Props和组合提供更清晰而安全地定制组件外观和行为的灵活方
 
     默认ture,会render。可以加条件减少不必要的渲染，增加性能。
 
-    若返回false，componentWillUpdate、render、componentDidUpdate不会调用
+    若返回false，componentWillUpdate、render、componentDidUpdate不会调用    
 
-    * PureComponent  进行浅比对，进行性能的优化（纯组件） extends.PureComponent
+    	* PureComponent  进行浅比对，进行性能的优化（纯组件） extends.PureComponent
 
       参数和返回值都是组件：高阶函数（map，filter，forEach.....）
 
@@ -565,7 +537,7 @@ Props和组合提供更清晰而安全地定制组件外观和行为的灵活方
 
       仅在state和props较简单的时候用。
 
-    * 对函数组件用React.memo(组件)  
+   	 * 对函数组件用React.memo(组件)  
 
       仅检查props有没改变
 
@@ -590,8 +562,6 @@ Props和组合提供更清晰而安全地定制组件外观和行为的灵活方
       }
       export default React.memo(MyComponent, areEqual);
       ````
-
-      
 
   * **render()**
 
@@ -621,25 +591,21 @@ Props和组合提供更清晰而安全地定制组件外观和行为的灵活方
 
     清理：定时器无效，取消网络请求、清理在componentDidMount中创建的任何监听
   
-* 错误处理
-
+* 错误处理  
   * static getDerivedStateFromError()
   * componentDidCatch()
 
-constructor,render,componentDidMount,componentWillunmount,componentDidUpdate 监控组件里的数据的变化，**慎用setState？？**
+注意：constructor,render,componentDidMount,componentWillunmount,componentDidUpdate 监控组件里的数据的变化，慎用setState！！
 
 **组件的异步传值问题**
-
-* 非父子组件传值 public-js
+* 非父子组件传值 public-js  
   * Public.publish("事件名","数据")
   * Public.subscribe("事件名",(evt,data)=>{})
 
 
-
 #### 11 Props默认值，限定类型
 
-设置props默认值：调用this.props
-
+设置props默认值：调用this.props  
 defaultProps用于确保this.props.key在父组件没有指定其值的时，有一个默认值。
 
 类组件
@@ -672,8 +638,6 @@ static propTypes = {
     data: PropTypes.object.isRequired
 }
 ````
-
-
 
 #### 12 React哲学
 
@@ -759,7 +723,6 @@ React通过传统欧双向绑定实现反向数据传递。
 总结：代码模块化和清晰度的重要性。且随着代码重用程度的增加，代码行数会显著减少。
 
 
-
 ### 高级指引
 
 #### 代码分割
@@ -789,14 +752,10 @@ React组件隐藏其实现细节，包括其渲染结果。这能防止过度依
 
 #### Fragments
 
-* import {Fragment} from 'react'
-
-* <React.Fragment></React.Fragment>
-
-* <></> 不支持key或属性
-
-* 带key的Fragments
-
+* import {Fragment} from 'react'  
+* <React.Fragment></React.Fragment>  
+* <></> 不支持key或属性  
+* 带key的Fragments    
   key是唯一可以传递给Fragment的属性。未来可能会添加对其他属性的支持，例如事件。
 
 #### 高阶组件
@@ -848,7 +807,7 @@ React.createElement(
 
 * 只允许时选择类型
 
-----------
+<hr/>
 
 **props**
 
@@ -892,10 +851,8 @@ React.createElement(
 
 包含在开始和结束标签之间的JSX表达式内容将作为特定属性`props.children`传递给外层组件。
 
-有如下几种方法来传递子元素
-
-字符字面量；JSX子元素；JavaScript表达式作为子元素；函数作为子元素；
-
+有如下几种方法来传递子元素  
+字符字面量；JSX子元素；JavaScript表达式作为子元素；函数作为子元素；  
 布尔类型、Null以及Undefined将会忽略。以下渲染结果相同
 
 ````js
@@ -927,21 +884,19 @@ UI更新需要昂贵的DOM操作，而React内部使用几种巧妙的技术以�
 
 开发者工具，黑色是生产版本。若是基于React开发模式的网站，背景是红色
 
-
-
--------
+----------------------
 
 **使用Chrome Performance标签分析组件**
 
------
+-----------------------------------------
 
 **使用开发者工具中的分析器对组件进行分析**
 
---------------
+-------------------------------------------
 
 **虚拟化长列表**
 
------
+----------------------------------------------
 
 **避免调停**
 
@@ -1274,14 +1229,11 @@ Refs，允许访问DOM节点或在render方法中创建的React元素。
 
 `const node = this.myRef.current;`
 
-ref的值根据节点的类型而有不同
-
-* 当ref属性用于HTML元素，构造函数中使用React.createRef()创建的ref接收底层DOM元素作为其current属性。
-
-* 当ref属性用于自定义class组件时，ref对象接收组件的挂载实例作为其current属性。
-
+ref的值根据节点的类型而有不同  
+* 当ref属性用于HTML元素，构造函数中使用React.createRef()创建的ref接收底层DOM元素作为其current属性。  
+* 当ref属性用于自定义class组件时，ref对象接收组件的挂载实例作为其current属性。  
 * 不能在函数组件上使用ref属性，因为他们没有实例。
-
+  
   ````js
   //函数组件
   function MyFunctionComponent(){
@@ -1292,20 +1244,13 @@ ref的值根据节点的类型而有不同
   ````
 
 
-ref的三种使用方式：
-
-* 字符串：ref="a"  this.refs.a
-
-* 回调函数:ref={(node)=>this.变量=node}  this.变量  就能拿到当前dom节点
-
-* createRef     
-
-  this.state = {变量:createRef()}  this.state.变量.current.value 
-
-  <node ref={this.state.变量}>
-
-  引用这个节点：this.steate.变量.current
-
+ref的三种使用方式：  
+* 字符串：ref="a"  this.refs.a  
+* 回调函数:ref={(node)=>this.变量=node}  this.变量  就能拿到当前dom节点  
+* createRef       
+  this.state = {变量:createRef()}  this.state.变量.current.value     
+  <node ref={this.state.变量}>  
+  引用这个节点：this.steate.变量.current    
 * 用this.refs.用ref标识的节点？
 
 #### Render Props
@@ -1561,8 +1506,63 @@ Web Components为可复用组件提供了强大的封装；
 ### API REFERENCE
 
 #### React 顶层API
-
-
+* 组件
+	 * React.Component
+	 * React.PureComponent  实现shouldComponentUpdate()，通过浅对比prop和state的方式实现该函数  
+	   注：将会跳过所有子组件树的 prop 更新。因此，请确保所有子组件也都是“纯”的组件。
+	 * React.memo: 可被包装的函数  比较props避免重复渲染
+* 创建React元素
+	 * createElement() 
+	 * createFactory()
+* 转换元素
+	 * cloneElement()
+	 * isValidElement(obj) 验证对象是否为React元素
+	 * React.Children()
+* Fragments
+	 * React.Fagment  == `<></>`
+* Refs
+	 * React.createRef
+	 ````jsx
+	 class Mycomponent extends React.Component {
+	 		constructor(props){
+				super(props);
+				this.inputRef = React.createRef();
+			}
+			render(){
+				return <input type="text" ref={this.inputRef}/>
+			}
+			componentDidMount(){
+				this.inputRef.current.focus();
+			}
+	 }
+	 ````
+	 * React.forwardRef  能将其接受的ref属性转发到其组件树下的另一个组件（即子组件？）
+	 ````jsx
+	 const FancyButton = React.forwardRef((prop,ref)=>{
+	 	<button ref={ref} className="FancyButton">{props.children}</button>
+	 });
+	 const ref = React.createRef();
+	 <FancyButton ref={ref}>Click</FancyButton>
+	 // 此时ref.current 将直接指向 <button> DOM 元素实例。
+	 ````
+* Suspense: 使组件可“等待”某些操作结束后，再进行渲染。
+	 * React.lazy  动态加载
+	 ````jsx
+		// 这个组件是动态加载的
+		const SomeComponent = React.lazy(() => import('./SomeComponent'));
+	 ````
+	 * React.Suspense
+* Hook
+	 * useState
+	 * useEffect
+	 * useContext
+	 * useReducer
+	 * useCallback
+	 * useMemo
+	 * useRef
+	 * useImperativeHandle
+	 * useLayoutEffect
+	 * useDebugValue
 
 #### ReactDOM
 
@@ -1892,17 +1892,17 @@ react cli  eslint 配置  https://www.codercto.com/a/13256.html
 
   * 脚手架实际是在安装
 
-    * react:react的顶级库
+    	* react:react的顶级库
 
-    * react-dom:
+    	* react-dom:
 
-      因为react有很多的运行环境，比如app端的react-native，我们要在web上运行就用react-dom
+      	因为react有很多的运行环境，比如app端的react-native，我们要在web上运行就用react-dom
 
-    * react-script:（下载最耗时），包含运行和打包react应用程序的所有脚本及配置
+    	* react-script:（下载最耗时），包含运行和打包react应用程序的所有脚本及配置
   
   * npm安装失败
-    * npm cache clean --force  在执行npm install
-    * rm -rf $(npm root)删除node_modules文件
+    	* npm cache clean --force  在执行npm install
+    	* rm -rf $(npm root)删除node_modules文件
   
 * 代理
 
