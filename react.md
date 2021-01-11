@@ -1,58 +1,37 @@
 
 
-React简介**
-
-用户构建用户界面的JavaScript库 2013-5 facebook退出
-
-vue是官方维护，react是社区维护
+### React简介
+用户构建用户界面的JavaScript库 2013-5 facebook提出;
+vue是官方维护，react是社区维护;
 
 ### 概念
 
 #### 1 jsx
-
 jsx是一个JavaScript的语法拓展。==xml+js。是一个语法糖。
-
 jsx不是必需的，但jsx可以提高开发效率。
-
 js与html的混写，是缺点也是优点
 
 注：
-
 React插值，对象不能直接渲染，数组以字符串的形式进行渲染。
-
 class改为className，fonXxx,
-
 style={{},{}}
 
--------
-
-jsx的原理
-
-* React.creteElement(tag,{attr},content)；虚拟DOM
+**jsx的原理
+* React.creteElement(tag,{attr},content) 虚拟dom
 * ReactDom.render(tag,document.querySelector());转成真实的dom，挂载
 
----------
-
-jsx语法
-
+**jsx语法
 * {有效的JavaScript表达式}
-
-  > 一个表达式是代码的任何有效单位，**其解析为一个值**
-
+   一个表达式是代码的任何有效单位，**其解析为一个值**
   `2 + 2`，`user.firstName` 或 `formatName(user)` 都是有效的
-
   注：if，for是语句；**jsx也是一个表达式**
-
-* 
+* jsx防止注入攻击
+  React DOM在渲染所有输入内容之前，默认会进行转义
 
 #### 2 元素渲染
-
 元素是构成React应用的最小块。组件是由元素构成的。
-
 React DOM负责更新DOM与React元素保持一致。
-
 React元素是**不可变对象**。一旦被创建，就无法更改它的子元素或属性。
-
 React只更新它需要更新的部分。
 
 #### 3 组件与Props
